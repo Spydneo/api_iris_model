@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "api-iris-model"
-version = "1.0.1"
+version = "1.1"
 description = ""
 authors = ["Jairo Calderón"]
 license = "MIT"
@@ -8,11 +8,11 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = {extras = ["all"], version = "^0.87.0"}
-ipykernel = "^6.17.1"
+fastapi = "^0.87.0"
 scikit-learn = "1.0.2"
 pandas = "^1.5.2"
 joblib = "^1.2.0"
+uvicorn = "^0.15.0"
 
 
 [build-system]
