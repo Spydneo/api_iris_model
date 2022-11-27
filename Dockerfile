@@ -34,7 +34,7 @@ WORKDIR $PYSETUP_PATH
 COPY poetry.lock pyproject.toml ./
 
 # install runtime deps - uses $POETRY_VIRTUALENVS_IN_PROJECT internally
-# RUN poetry install --no-dev
+RUN poetry install --no-dev
 
 ###############################################
 # Production Image
@@ -43,4 +43,4 @@ FROM python-base as production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY api_iris_model /api_iris_model/
 
-CMD ["uvicorn", "simpleapi.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "api_iris_model.main:app", "--host", "0.0.0.0", "--port", "80"]
