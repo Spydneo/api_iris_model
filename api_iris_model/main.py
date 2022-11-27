@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from enum import Enum
+import joblib
 import pickle
 import pandas as pd
+import os
+
 
 app = FastAPI()
 
@@ -18,10 +21,13 @@ class OutputValues(str, Enum):
     PREDICTION = "probability"
 
 
-
 ##################### Cargar pickle #########################
-with open(f"./titanic_model_test.pkl", 'rb') as f:
-    pipeline_cargado_1 = pickle.load(f)
+def load_model():
+    # os.system('ls')
+    return joblib.load("api_iris_model/model/iris_classifier.joblib")
+
+# with open(f"./titanic_model_test.pkl", 'rb') as f:
+#     pipeline_cargado_1 = pickle.load(f)
 
 ##################### BaseModel ###########################
 class ModelConfig (BaseModel):
@@ -40,34 +46,22 @@ class InferenceParameters (BaseModel):
 
 @app.post("/predict/")
 # async def create_item(input: InferenceParameters, user_id: int):
-async def create_item(input: InferenceParameters):
-    input.titanic_model_input.age
+async def inference(input: list):
+    clf = load_model()
+
     df_input = pd.DataFrame(
-                            [{
-                            "age":input.titanic_model_input.age,
-                            "sex":input.titanic_model_input.sex.value}]
+                            [input]
                             )
 
-    result = 1
-    if(input.model_config.output.value == "prediction"):
-        result = pipeline_cargado_1.predict(df_input)   
-    elif(input.model_config.output.value == "probability"):
-        result = pipeline_cargado_1.predict_proba(df_input)
+    result = clf.predict(df_input)
+    print(result)
+    return{"whole_input": input, "result": float(result[0]) }
 
-    return{"whole_input": input, "result": list(result[0]) }
-    # Primer ejercicio
-    # if(user_id % 2 == 0):
-    #     result = pipeline_cargado_1.predict(df_input)
-    #     model = "Decission Tree"
-    # else:
-    #     result = pipeline_cargado_2.predict(df_input)
-    #     model = "Lineal"
-
-    # return{"whole_input": input, "result": result[0], "model": model}
 
 
 @app.get("/")
 async def root():
+    model = load_model()
     return {"message": "OK"}
 
 @app.get("/echo/{number_id}")
