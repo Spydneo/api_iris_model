@@ -1,0 +1,1 @@
+Para crear/entrenar el model ejecutar python -m training dentro la carpeta api_iris_model
