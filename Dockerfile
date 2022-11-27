@@ -34,7 +34,7 @@ RUN poetry install --no-dev
 FROM python-base as production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY api_iris_model /api_iris_model/
-
 WORKDIR /api_iris_model
 RUN python -m training
+EXPOSE 5000
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]

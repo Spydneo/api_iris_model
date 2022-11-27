@@ -9,6 +9,7 @@ app = FastAPI()
 def load_model():
     os.system('ls')
     return joblib.load("api_iris_model/model/iris_classifier.joblib")
+    # return joblib.load("model/iris_classifier.joblib") #To Dockerfile workdir
 
 ##################### BaseModel ###########################
 class InferenceParameters (BaseModel):
