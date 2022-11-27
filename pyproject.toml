@@ -1,11 +1,10 @@
 [tool.poetry]
 name = "api-iris-model"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = ["Jairo Calderón"]
 license = "MIT"
 readme = "README.md"
-packages = [{include = "api_iris_model"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
