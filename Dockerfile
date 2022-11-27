@@ -1,7 +1,4 @@
-###############################################
-# Base Image
-###############################################
-
+####### Base Image #######
 FROM python:3.9 as python-base
 
 ENV PYTHONUNBUFFERED=1 
@@ -19,10 +16,7 @@ ENV VENV_PATH="/opt/pysetup/.venv"
 # prepend poetry and venv to path
 ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
 
-###############################################
-# Builder Image
-###############################################
-
+########### Builder Image #############
 FROM python-base as builder-base
 RUN apt-get update && apt-get install --no-install-recommends -y curl build-essential
 
@@ -36,11 +30,11 @@ COPY poetry.lock pyproject.toml ./
 # install runtime deps - uses $POETRY_VIRTUALENVS_IN_PROJECT internally
 RUN poetry install --no-dev
 
-###############################################
-# Production Image
-###############################################
+################ Production Image ###########
 FROM python-base as production
 COPY --from=builder-base $PYSETUP_PATH $PYSETUP_PATH
 COPY api_iris_model /api_iris_model/
 
-CMD ["uvicorn", "api_iris_model.main:app", "--host", "0.0.0.0", "--port", "80"]
+WORKDIR /api_iris_model
+RUN python -m training
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]

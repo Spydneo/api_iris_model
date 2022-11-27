@@ -1,1 +1,1 @@
-Para crear/entrenar el model ejecutar python -m training dentro la carpeta api_iris_model
+El modelo se genera al momento de hacer el Build del Dockerfile.
