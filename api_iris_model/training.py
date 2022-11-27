@@ -23,5 +23,6 @@ def save_model(clf):
 
 if __name__  == "__main__":
     X, y = load_dataset()
+    print("HOOOOOOOOOLA")
     clf = train(X, y)
     save_model(clf)

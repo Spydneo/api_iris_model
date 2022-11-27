@@ -14,7 +14,6 @@ pandas = "^1.5.2"
 joblib = "^1.2.0"
 uvicorn = "^0.15.0"
 
-
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
