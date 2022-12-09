@@ -5,11 +5,28 @@ from pydantic import BaseModel
 import os
 app = FastAPI()
 
+# origins = [
+#     "http://localhost.tiangolo.com",
+#     "https://localhost.tiangolo.com",
+#     "http://localhost",
+#     "http://localhost:5000",
+# ]
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins= ["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 ##################### Load Model #########################
 def load_model():
     os.system('ls')
-    return joblib.load("api_iris_model/model/iris_classifier.joblib")
-    # return joblib.load("model/iris_classifier.joblib") #To Dockerfile workdir
+    # return joblib.load("api_iris_model/model/iris_classifier.joblib") #Path without Docker
+    return joblib.load("model/iris_classifier.joblib") #To Dockerfile workdir
 
 ##################### BaseModel ###########################
 class InferenceParameters (BaseModel):
